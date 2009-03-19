@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  
+  # Map application root to default RestfulX controller
+  map.root :controller => "flex"
+  
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
