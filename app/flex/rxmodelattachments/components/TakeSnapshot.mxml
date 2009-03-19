@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="610" height="410" 
+  title="Take a picture" close="PopUpManager.removePopUp(this)" initialize="init()" showCloseButton="true">
+   <mx:Script>
+       <![CDATA[
+         import flash.media.Camera;
+         import flash.utils.ByteArray;
+         
+         import mx.core.UIComponent;
+         import mx.graphics.codec.PNGEncoder;
+         import mx.managers.PopUpManager;
+
+         import rxmodelattachments.utils.CameraStream;
+         
+         private var cameraStream:CameraStream;
+
+         private var cameraHeight:int = 280;
+         
+         private var cameraWidth:int = 260;
+         
+         private var currentSnapshot:ByteArray;
+         
+         public var handler:Function;
+           
+         private function init():void {
+           cameraStream = new CameraStream(cameraWidth, cameraHeight);
+           var ref:UIComponent = new UIComponent();
+           camera.removeAllChildren();
+           camera.addChild(ref);
+           ref.addChild(cameraStream);
+         }
+         
+         private function takeSnapshot():void {
+           var uiComponent:UIComponent = new UIComponent();
+           uiComponent.width = cameraWidth;
+           uiComponent.height = cameraHeight;
+           
+           var photoData:Bitmap = cameraStream.getSnapshot();
+           var photoBitmap:BitmapData = photoData.bitmapData;
+           
+           uiComponent.addChild(photoData);
+           
+           preview.removeAllChildren();
+           preview.addChild(uiComponent);
+           
+           var encoder:PNGEncoder = new PNGEncoder();
+           currentSnapshot = encoder.encode(photoBitmap);
+         }
+         
+         private function confirmSnapshot():void {
+           handler(currentSnapshot);
+           PopUpManager.removePopUp(this);
+         }
+       ]]>
+   </mx:Script>
+   <mx:Panel width="280" height="350" id="camera" title="Photo Maker" cornerRadius="0" left="10" top="10" bottom="40"/>
+   <mx:Panel width="280" height="350" title="Preview" id="preview" cornerRadius="0" right="10" top="10" bottom="40"/>
+   <mx:Button label="Take Snapshot" click="takeSnapshot()" bottom="10" width="110" left="10"/>
+   <mx:Button label="Done!" click="confirmSnapshot()" right="10" width="110" bottom="10"/>
+</mx:TitleWindow>

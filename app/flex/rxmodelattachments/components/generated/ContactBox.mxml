@@ -2,13 +2,26 @@
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Contact"
   xmlns:rx="org.restfulx.components.rx.*">
   <mx:Script><![CDATA[
+    import flash.display.DisplayObject;
+    import flash.events.Event;
+    import flash.events.IOErrorEvent;
+    import flash.utils.ByteArray;
+
+    import mx.containers.TitleWindow;
+    import mx.core.Application;
+    import mx.managers.PopUpManager;
+
     import org.restfulx.Rx;
-    import org.restfulx.utils.RxUtils;
-    import rxmodelattachments.models.Contact;
+    import org.restfulx.utils.BinaryAttachment;
     import org.restfulx.utils.RxFileReference;
+    import org.restfulx.utils.RxUtils;
+  
+    import rxmodelattachments.models.Contact;
+    import rxmodelattachments.components.TakeSnapshot;
 
     [Bindable]
     private var contact:Contact = new Contact();
+    
     [Bindable]
     private var fileName:String = "None selected";
     
@@ -32,9 +45,7 @@
       contact.firstName = firstNameTextInput.text;
       contact.lastName = lastNameTextInput.text;
       contact.emailAddress = emailAddressTextInput.text;
-      contact.notes = notesTextArea.text;
-  
-      contact.attachment = file;
+      contact.notes = notesTextArea.text;  
     }
    
     private function destroyContact():void {
@@ -76,10 +87,25 @@
     
     private function fileSelected(event:Event):void {
       fileName = RxFileReference(event.target).name;
+      contact.attachment = file;
     }
     
     private function ioErrorHandler(event:Event):void {
       fileChooser.errorString = "Failed to selected a file. Please try again.";
+    }
+    
+    private function takeSnapshot():void {
+      var popUp:TakeSnapshot = new TakeSnapshot;
+      popUp.handler = function(data:ByteArray):void {
+        contact.attachment = new BinaryAttachment("snapshot.jpg", "avatar", data);
+        saveContact();
+      };
+      popUpWindow(popUp);
+    }
+
+    public static function popUpWindow(window:TitleWindow):void {
+      PopUpManager.addPopUp(window, DisplayObject(Application.application), true);
+      PopUpManager.centerPopUp(window);
     }
   ]]></mx:Script>
   <mx:Panel id="contactsPanel"
@@ -111,6 +137,7 @@
       </mx:FormItem>
       <mx:FormItem label="Avatar:" width="100%" id="fileChooser">
         <mx:Button label="Browse…" id="fileBrowseButton" click="chooseFile()"/>
+        <mx:Button label="Take Snapshot" click="takeSnapshot()"/>
         <mx:Label text="{fileName}" maxWidth="190"/>
         <mx:Image source="{contact.attachmentUrl}"/>
       </mx:FormItem>
