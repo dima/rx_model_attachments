@@ -16,5 +16,6 @@
   <mx:LinkBar dataProvider="{mainViewStack}" direction="vertical" borderStyle="solid" backgroundColor="#EEEEEE"/>
   <mx:ViewStack id="mainViewStack" width="100%" height="100%">
     <!-- For a simple demo, put all the components here. -->
+    <generated:ContactBox/>
   </mx:ViewStack>
 </mx:Application>

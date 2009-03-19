@@ -10,7 +10,7 @@ package rxmodelattachments.controllers {
   public class ApplicationController extends RxApplicationController {
     private static var controller:ApplicationController;
     
-    public static var models:Array = []; /* Models */
+    public static var models:Array = [Contact]; /* Models */
     
     public static var commands:Array = []; /* Commands */
     

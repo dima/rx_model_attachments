@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+contact_one:
+  id: <%= Fixtures.identify(:contact_one) %>
+  first_name: Contact1FirstNameString
+  last_name: Contact1LastNameString
+  email_address: Contact1EmailAddressString
+  notes: Contact1NotesText
+
+contact_two:
+  id: <%= Fixtures.identify(:contact_two) %>
+  first_name: Contact2FirstNameString
+  last_name: Contact2LastNameString
+  email_address: Contact2EmailAddressString
+  notes: Contact2NotesText
+
+contact_three:
+  id: <%= Fixtures.identify(:contact_three) %>
+  first_name: Contact3FirstNameString
+  last_name: Contact3LastNameString
+  email_address: Contact3EmailAddressString
+  notes: Contact3NotesText
+
+contact_four:
+  id: <%= Fixtures.identify(:contact_four) %>
+  first_name: Contact4FirstNameString
+  last_name: Contact4LastNameString
+  email_address: Contact4EmailAddressString
+  notes: Contact4NotesText
