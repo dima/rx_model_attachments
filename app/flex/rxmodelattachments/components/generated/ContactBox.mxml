@@ -71,10 +71,10 @@
 
     private function chooseFile():void {
       file = new RxFileReference("avatar");
-      file.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
-      file.addEventListener(Event.SELECT, selectFile, false, 0, true);
-      file.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
-      file.browse();
+      file.reference.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
+      file.reference.addEventListener(Event.SELECT, selectFile, false, 0, true);
+      file.reference.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
+      file.reference.browse();
     }
     
     private function selectFile(event:Event):void { 
@@ -86,7 +86,7 @@
     }
     
     private function fileSelected(event:Event):void {
-      fileName = RxFileReference(event.target).name;
+      fileName = RxFileReference(event.target).reference.name;
       contact.attachment = file;
     }
     
